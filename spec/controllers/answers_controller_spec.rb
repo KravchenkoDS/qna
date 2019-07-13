@@ -7,11 +7,11 @@ RSpec.describe AnswersController, type: :controller do
   describe 'GET #new' do
 
     it 'assigns a new Answers to @answer' do
-      expect {post :new, params: {question_id: question, answer: attributes_for(:answer)}}
+      expect {get :new, params: {question_id: question, answer: attributes_for(:answer)}}
     end
 
     it 'renders new view' do
-      post :create, params: {question_id: question, answer: attributes_for(:answer, :invalid)}
+      get :create, params: {question_id: question, answer: attributes_for(:answer, :invalid)}
       expect(response).to render_template :new
     end
   end
