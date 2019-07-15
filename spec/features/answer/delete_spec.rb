@@ -11,7 +11,7 @@ feature 'Author may delete own answer', %q{
   given!(:question) {create(:question)}
 
   scenario 'Author delete answer' do
-    sign_in(users.first)
+    sign_in(answer.user)
     visit question_path(question)
     click_on 'Delete answer'
 
@@ -19,7 +19,7 @@ feature 'Author may delete own answer', %q{
   end
 
   scenario 'Not author tried delete answer' do
-    sign_in(users.last)
+    sign_in(answer.user)
     visit question_path(question)
 
     expect(page).to_not have_content 'Delete answer'

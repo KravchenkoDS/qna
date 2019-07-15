@@ -8,7 +8,7 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to question_path(@answer.question), notice: 'Your answer successfully created.'
     else
-      render 'questions/show'
+      render 'questions/show', alert: 'Only the owner can delete the response.'
     end
   end
 

@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:user) {create(:user)}
-  before {login(user)}
 
   describe 'GET #new' do
+    before {login(user)}
 
     it 'assigns a new Question to @question' do
       expect {get :new, params: {question_id: question, answer: attributes_for(:question)}}
@@ -31,6 +31,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
+    before {login(user)}
     let(:question) {create(:question)}
     let(:answer) {create(:answer, question_id: question)}
 
@@ -50,7 +51,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
-
+    before {login(user)}
     context 'Author create question with valid attributes' do
       it 'save a new question in database' do
         expect {post :create, params: {question: attributes_for(:question)}}.to change(user.questions, :count).by(1)
@@ -75,6 +76,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+    before {login(user)}
     let!(:question) {create(:question)}
     let!(:own_question) {create(:question, user: user)}
     context 'Author tried delete question' do

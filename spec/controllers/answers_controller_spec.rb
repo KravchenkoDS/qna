@@ -4,9 +4,9 @@ RSpec.describe AnswersController, type: :controller do
 
   let(:user) {create(:user)}
   let(:question) {create(:question)}
-  before {login(user)}
 
   describe 'POST #create' do
+    before {login(user)}
     context 'with valid attributes' do
       it 'save a new answer in database increment users answers' do
         expect {post :create, params: {question_id: question, answer: attributes_for(:answer)}}
@@ -38,6 +38,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+    before {login(user)}
     let!(:answer) {create(:answer)}
     let!(:own_answer) {create(:answer, user: user)}
     context 'Author tried delete question' do
