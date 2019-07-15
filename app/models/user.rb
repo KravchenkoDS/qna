@@ -8,4 +8,7 @@ class User < ApplicationRecord
   def author?(resource)
     resource.user_id == id
   end
+  def get_email(resource)
+    resource.email == email
+  end
 end
