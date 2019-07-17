@@ -18,7 +18,6 @@ feature 'Authenticated user can create answer', %q{
       visit question_path(question)
       fill_in 'answer_body', with: 'Answer body'
       click_on 'Add answer'
-
       expect(page).to have_content 'Your answer successfully created.'
       expect(page).to have_content 'Answer body'
     end
@@ -29,7 +28,9 @@ feature 'Authenticated user can create answer', %q{
 
       expect(page).to have_content "Body can't be blank"
     end
+
   end
+
 
   scenario 'Unauthenticated tries to add a answer' do
     visit question_path(question)

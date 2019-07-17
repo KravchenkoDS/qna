@@ -19,9 +19,10 @@ feature 'Author may delete own answer', %q{
   end
 
   scenario 'Not author tried delete answer' do
-    sign_in(answer.user)
+    other_user = create(:user)
+    sign_in(other_user)
     visit question_path(question)
-
+    save_and_open_page
     expect(page).to_not have_content 'Delete answer'
   end
 

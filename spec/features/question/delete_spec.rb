@@ -12,7 +12,7 @@ feature 'Only author may delete own question', %q{
   scenario 'Author delete question' do
     sign_in(users.first)
     visit question_path(question)
-    click_on 'Delete question'
+    click_on 'Delete Question'
 
     expect(page).to_not have_content question.title
   end
