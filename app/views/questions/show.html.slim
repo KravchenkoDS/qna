@@ -1,0 +1,28 @@
+h1= @question.title
+p= @question.body
+
+strong = t('common.author ')
+= @question.user ? @question.user.email : t('common.not_defined')
+
+= render 'common/errors', resource: @answer
+
+h2 = t('.answers')
+.answers
+  ul
+    = render @question.answers
+
+= form_with model: [@question, @answer], local: true do |f|
+  = f.label :body
+  br
+  = f.text_area :body
+  br
+
+  = f.submit t('.add_answer')
+
+= link_to t('links.back'), questions_path
+br
+= link_to t('links.edit'), edit_question_path(@question)
+br
+- if current_user && current_user.author?(@question)
+    = link_to t('Delete question'), question_path(@question), method: :delete,
+            data: { confirm: t('common.sure') }

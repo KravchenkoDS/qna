@@ -1,0 +1,21 @@
+h1 = t('.header')
+
+table class='table table-sm'
+  thead
+    tr
+      th = t('.title')
+      th = t('common.user')
+      th = t('.answers_count')
+      th colspan="2"
+
+  tbody
+    - @questions.each do |question|
+      tr
+        td = question.title
+        td = question.user.email
+        td = question.answers.count
+        td = link_to t('links.show'), question
+        td
+br
+
+= link_to t('.new'), new_question_path

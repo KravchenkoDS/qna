@@ -1,0 +1,6 @@
+- if answer.persisted?
+  = answer.body
+  - if current_user&.author? answer
+    br
+    = link_to "Delete answer", answer_path(answer), method: :delete,data: {confirm: t('common.sure')}
+    br
