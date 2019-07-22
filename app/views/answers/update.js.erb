@@ -1,5 +1,5 @@
 $('.answer-errors').html('<%= render 'common/errors', resource: @answer %>');
 
-<% if !@answer.errors.present? %>
+<% unless@answer.errors.present? %>
 $('<%= "#answer-#{@answer.id}" %>').html('<%= j render @answer %>')
 <% end %>
