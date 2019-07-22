@@ -1,6 +1,9 @@
 <% if @answer.best %>
 $('.answers').html('<%= j render @question.answers %>');
+
 $('<%= "#answer-#{@answer.id}" %>').addClass('best');
+
 $(".label-best").removeClass('hidden');
+
 $(".label-best[data-answer-id='<%= @answer.id %>']").addClass('hidden');
 <% end %>
