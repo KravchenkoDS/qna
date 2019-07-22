@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :load_question, only: %i[show destroy]
+  before_action :load_question, only: %i[show destroy update]
 
   def new
     @question = current_user.questions.new
@@ -30,6 +30,14 @@ class QuestionsController < ApplicationController
     else
       redirect_to questions_path, alert: 'Access denided'
     end
+  end
+
+  def update
+    unless current_user.author?(@question)
+      return redirect_to questions_path, alert: 'Access denided'
+    end
+
+    @question.update(question_params)
   end
 
   private

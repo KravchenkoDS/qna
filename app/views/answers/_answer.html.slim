@@ -1,6 +1,15 @@
-- if answer.persisted?
-  = answer.body
-  - if current_user&.author? answer
+div id= "answer-#{answer.id}"
+  -if answer.persisted?
+    p= answer.body
+
+    - if current_user&.author?(answer)
+      p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+      = link_to 'Delete answer',answer, method: :delete, remote: true
     br
-    = link_to "Delete answer", answer_path(answer), method: :delete,data: {confirm: t('common.sure')}
-    br
+    - if current_user&.author?(answer.question)
+      =link_to 'Mark as best', best_answer_path(answer), remote: true, class: 'mark-as-best', data: { answer_id: answer.id }, method: :patch
+
+    = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+      = f.label :body, 'Your answer'
+      = f.text_area :body
+      = f.submit 'Save'

@@ -1,28 +1,29 @@
-h1= @question.title
-p= @question.body
+.question-errors
+  = render 'common/errors', resource: @question
 
-strong = t('common.author ')
-= @question.user ? @question.user.email : t('common.not_defined')
+.question
+  = render @question
 
-= render 'common/errors', resource: @answer
+.question-link
+  = form_with model: @question, class: 'hidden', html: { id: "edit-question" } do |f|
+    = f.label :body, 'Edit question'
+    = f.text_area :body
+    = f.submit 'Save'
 
-h2 = t('.answers')
+  - if current_user&.author?(@question)
+    / p= link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: @question.id }
+    p= link_to 'Delete question',
+            question_path(@question),
+            method: :delete,
+            data: { confirm:'You sure delete' }
+
+.answer-errors
+  = render 'common/errors', resource: @answer
+
 .answers
-  ul
-    = render @question.answers
+  = render @question.answers
 
-= form_with model: [@question, @answer], local: true do |f|
-  = f.label :body
-  br
+= form_with model: [@question, @answer], class: 'new-answer' do |f|
+  = f.label :body, 'Your answer'
   = f.text_area :body
-  br
-
-  = f.submit t('.add_answer')
-
-= link_to t('links.back'), questions_path
-br
-= link_to t('links.edit'), edit_question_path(@question)
-br
-- if current_user && current_user.author?(@question)
-    = link_to t('Delete question'), question_path(@question), method: :delete,
-            data: { confirm: t('common.sure') }
+  = f.submit 'Add answer'
