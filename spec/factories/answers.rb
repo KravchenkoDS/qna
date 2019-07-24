@@ -1,5 +1,4 @@
 FactoryBot.define do
-
   sequence :body do |n|
     "MyText#{n}"
   end
@@ -9,7 +8,7 @@ FactoryBot.define do
     user
 
     trait :invalid do
-      body {nil}
+      body { nil }
     end
   end
 end

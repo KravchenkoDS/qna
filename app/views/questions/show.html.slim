@@ -11,7 +11,7 @@
     = f.submit 'Save'
 
   - if current_user&.author?(@question)
-    / p= link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: @question.id }
+    p= link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: @question.id }
     p= link_to 'Delete question',
             question_path(@question),
             method: :delete,

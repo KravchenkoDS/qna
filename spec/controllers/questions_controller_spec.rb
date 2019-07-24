@@ -76,27 +76,92 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+
     before {login(user)}
+
     let!(:question) {create(:question)}
+
     let!(:own_question) {create(:question, user: user)}
+
     context 'Author tried delete question' do
       it 'deletes the question' do
+
         expect {delete :destroy, params: {id: own_question}}.to change(Question, :count).by(-1)
+
       end
 
       it 'redirects to index' do
         delete :destroy, params: {id: own_question}
+
         expect(response).to redirect_to questions_path
       end
     end
     context ' Not author tried delete question' do
       it 'deletes the question' do
+
         expect {delete :destroy, params: {id: question}}.to_not change(Question, :count)
+
       end
 
       it 'redirects to index' do
         delete :destroy, params: {id: question}
+
         expect(response).to redirect_to questions_path
+      end
+    end
+  end
+  describe 'PATCH #update' do
+
+    let!(:question) { create(:question) }
+
+    let!(:own_question) { create(:question, user: user) }
+
+    context 'with valid attributes' do
+      it 'renders update view' do
+        patch :update, params: { id: own_question, question: { body: 'new body' } }, format: :js
+
+        expect(response).to render_template :update
+      end
+
+      it 'changes question attributes' do
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' }, format: :js }
+
+        question.reload
+
+        expect(question.title).to eq 'new title'
+
+        expect(question.body).to eq 'new body'
+      end
+    end
+
+    context 'with invalid attributes' do
+      it 'does not change question attributes' do
+        expect do
+
+          patch :update, params: { id: own_question, question: attributes_for(:question, :invalid) }, format: :js
+
+        end.to_not change(own_question, :body)
+      end
+
+      it 'renders update view' do
+        patch :update, params: { id: own_question, question: attributes_for(:question, :invalid) }, format: :js
+
+        expect(response).to render_template :update
+      end
+    end
+    context 'Not author tried update question' do
+      it 'redirects to index' do
+        patch :update, params: { id: question, question: { body: 'new body' } }, format: :js
+
+        expect(response).to redirect_to questions_path
+      end
+
+      it 'does not change question attributes' do
+        expect do
+
+          patch :update, params: { id: question, question: { body: 'new body' } }, format: :js
+
+        end.to_not change(question, :body)
       end
     end
   end

@@ -5,14 +5,14 @@ RSpec.describe User, type: :model do
   it { should have_many(:questions).dependent(:destroy) }
 
   let(:user) { create(:user) }
-  let(:question) { create(:question) }
   let(:owner_question) { create(:question, user: user) }
+  let(:question) { create(:question) }
 
-  it 'Author' do
+  it 'Author question' do
     expect(user).to be_author(owner_question)
   end
 
-  it 'Not author' do
+  it 'Not author question' do
     expect(user).to_not be_author(question)
   end
 end
