@@ -6,6 +6,10 @@ class QuestionsController < ApplicationController
     @question = current_user.questions.new
   end
 
+  def show
+    @answer = @question.answers.new
+  end
+
   def create
     @question = current_user.questions.new(question_params)
     if @question.save
