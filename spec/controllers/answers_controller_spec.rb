@@ -90,7 +90,7 @@ RSpec.describe AnswersController, type: :controller do
         expect do
 
           patch :update, params: { id: own_answer, answer: attributes_for(:answer, :invalid) }, format: :js
-
+          own_answer.reload
         end.to_not change(own_answer, :body)
       end
 
@@ -105,7 +105,7 @@ RSpec.describe AnswersController, type: :controller do
         expect do
 
           patch :update, params: { id: answer }, format: :js
-
+          own_answer.reload
         end.to_not change(answer, :body)
       end
       it 'redirects to question show' do
@@ -117,34 +117,44 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #best' do
-    let!(:own_question) { create :question, user: user }
+    context 'registered users' do
+      context 'with unauthenticated user' do
+        let!(:answer) { create(:answer) }
 
-    let!(:answer) { create :answer, question: own_question }
-
-    let(:other_answer) { create :answer }
-
-    context 'Author of question mark answer as best' do
-      it 'do attribute best of answers true' do
-        patch :best, params: { id: answer }, format: :js
-
-        answer.reload
-
-        expect(answer.best).to be_truthy
+        it 'sets the best answer to the question' do
+          expect do
+            patch :best, params: { id: answer }, format: :js
+            answer.reload
+          end.to_not change(answer, :best)
+        end
       end
-      it 'renders best view' do
-        patch :best, params: { id: answer }, format: :js
 
-        expect(response).to render_template :best
+      context 'with valid user' do
+        before { login(user) }
+        let!(:question) { create(:question, author: user) }
+        let!(:answer) { create(:answer, question: question) }
+
+        it 'sets the best answer' do
+          patch :best, params: { id: answer }, format: :js
+          answer.reload
+          expect(answer).to be_best
+        end
+
+        it 'to best view' do
+          patch :best, params: { id: answer }, format: :js
+          expect(response).to render_template :best
+        end
       end
-    end
 
-    context 'Not author of question tried mark answer as best' do
-      it 'do not attribute best of answers true' do
-        patch :best, params: { id: other_answer }, format: :js
+      context 'with invalid user' do
+        let!(:question) { create(:question) }
+        let!(:answer) { create(:answer, question: question) }
 
-        answer.reload
-
-        expect(answer.best).to be_falsey
+        it 'sets the best answer' do
+          patch :best, params: { id: answer }, format: :js
+          answer.reload
+          expect(answer).not_to be_best
+        end
       end
     end
   end

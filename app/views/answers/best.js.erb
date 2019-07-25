@@ -1,4 +1,4 @@
-<% if @answer.best %>
+<% if @answer.best? %>
 $('.answers').html('<%= j render @question.answers %>');
 
 $('<%= "#answer-#{@answer.id}" %>').addClass('best');

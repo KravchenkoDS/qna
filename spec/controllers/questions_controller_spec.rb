@@ -160,7 +160,7 @@ RSpec.describe QuestionsController, type: :controller do
         expect do
 
           patch :update, params: { id: question, question: { body: 'new body' } }, format: :js
-
+          question.reload
         end.to_not change(question, :body)
       end
     end
