@@ -139,6 +139,8 @@ RSpec.describe QuestionsController, type: :controller do
         expect do
 
           patch :update, params: { id: own_question, question: attributes_for(:question, :invalid) }, format: :js
+          
+          question.reload
 
         end.to_not change(own_question, :body)
       end
