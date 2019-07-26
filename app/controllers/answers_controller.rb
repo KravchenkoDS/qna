@@ -1,25 +1,41 @@
+# frozen_string_literal: true
+
 class AnswersController < ApplicationController
-  before_action :load_question, only: %i[new create]
-  before_action :load_answer, only: %i[destroy]
   before_action :authenticate_user!
+  before_action :load_question, only: %i[new create]
+  before_action :load_answer, only: %i[update destroy best]
+
+  def edit; end
+
+  def update
+    unless current_user.author?(@answer)
+      return redirect_to question_path(@answer.question), alert: 'Access denided'
+    end
+
+    @answer.update(answers_params)
+    @question = @answer.question
+  end
 
   def create
     @answer = @question.answers.new(answers_params)
     @answer.user = current_user
-    if @answer.save
-      redirect_to question_path(@answer.question), notice: 'Your answer successfully created.'
-    else
-      render 'questions/show', alert: 'Only the owner can delete the response.'
-    end
+    @answer.save
   end
 
   def destroy
-    @answer = Answer.find(params[:id])
-    if current_user.author?(@answer)
-      @answer.destroy
-      redirect_to question_path(@answer.question)
+    unless current_user.author?(@answer)
+      return redirect_to question_path(@answer.question), alert: 'Access denided'
+    end
+
+    @answer.destroy
+  end
+
+  def best
+    @question = @answer.question
+    if current_user.author?(@question)
+      @answer.set_best!
     else
-      redirect_to question_path(@answer.question), alert: 'Access denided'
+      return redirect_to question_path(@question), alert: 'Access denided'
     end
   end
 
@@ -37,4 +53,3 @@ class AnswersController < ApplicationController
     params.require(:answer).permit(:body)
   end
 end
-

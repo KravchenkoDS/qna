@@ -7,10 +7,14 @@ html
     = csp_meta_tag
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
-  body
-    = link_to 'Log out', destroy_user_session_path, method: :delete
-    p.notice
-      = notice
-    p.alert
-      = alert
-    = yield
+    body
+      - if user_signed_in?
+        = "Hello, #{current_user.email}"
+        br
+      = link_to "Log out", destroy_user_session_path, method: :delete
+      .flash
+        p class="notice"
+          = notice
+        p class="alert"
+          = alert
+      = yield
