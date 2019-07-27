@@ -7,9 +7,21 @@ div id= "answer-#{answer.id}"
       = link_to 'Delete answer',answer, method: :delete, remote: true
     br
     - if current_user&.author?(answer.question)
-      =link_to 'Mark as best', best_answer_path(answer), remote: true, class: 'label-best', data: { answer_id: answer.id }, method: :patch
+      =link_to 'Mark as best', best_answer_path(answer), remote: true, class: 'mark-as-best', data: { answer_id: answer.id }, method: :patch
 
     = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
       = f.label :body, 'Your answer'
       = f.text_area :body
+      = f.label :files
+      = f.file_field :files, multiple: true, direct_upload: true
       = f.submit 'Save'
+
+  - if answer.files.attached?
+    - answer.files.each do |file|
+      div id=file.id class='file'
+        p= link_to file.filename.to_s, url_for(file)
+        - if current_user&.author?(answer)
+          =link_to 'Delete file',
+                  file_path(file),
+                  method: :delete,
+                  remote: true
