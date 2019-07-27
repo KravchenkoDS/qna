@@ -10,12 +10,16 @@ RSpec.describe Answer, type: :model do
     let!(:answer) { create(:answer, question: question) }
     let!(:answer2) { create(:answer, question: question) }
 
-    it 'mark answer as best' do
+    it 'have many attached files' do
+        expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+    end
+
+    it 'answer as best' do
         answer.set_best!
         expect(answer).to be_best
     end
 
-    it 'Best answer may be only one' do
+    it 'answer may be only one' do
         answer.set_best!
         answer2.set_best!
         answer.reload
