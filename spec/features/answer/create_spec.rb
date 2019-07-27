@@ -33,18 +33,6 @@ feature 'Authenticated user can create answer', %q{
 
       expect(page).to have_content "Body can't be blank"
     end
-
-    scenario 'adds a answer with attached files' do
-      visit question_path(question)
-      fill_in 'answer_body', with: 'Answer body'
-
-      attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
-      click_on 'Add answer'
-
-      expect(page).to have_link 'rails_helper.rb'
-      expect(page).to have_link 'spec_helper.rb'
-    end
-
   end
 
 
