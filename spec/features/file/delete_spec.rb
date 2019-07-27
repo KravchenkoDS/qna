@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 feature 'Only author may delete files from own question', %q{
-  In order delete not rigth files etc
-  As an authenticated user - author question
-  I'd like to be able delete files from quesrion
+  To delete files, etc.
+  Authenticated user - author's question
+  I would like to delete files from quesrion
 } do
 
   given(:users) { create_list(:user, 2) }
