@@ -54,4 +54,4 @@ class QuestionsController < ApplicationController
     params.require(:question).permit(:title, :body, files: [])
   end
 end
- 
+
