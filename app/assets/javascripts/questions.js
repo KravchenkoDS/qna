@@ -5,4 +5,4 @@ $(document).on('turbolinks:load', function(){
         $('form#edit-question').removeClass('hidden');
     })
 });
- 
+
