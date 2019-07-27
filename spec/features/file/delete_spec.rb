@@ -34,3 +34,4 @@ feature 'Only author may delete files from own question', %q{
     expect(page).to_not have_link "Delete file"
   end
 end
+
