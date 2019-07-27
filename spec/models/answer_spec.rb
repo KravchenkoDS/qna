@@ -27,3 +27,4 @@ RSpec.describe Answer, type: :model do
         expect(Answer.first).to eq(answer2)
     end
 end
+
