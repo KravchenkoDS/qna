@@ -12,16 +12,4 @@ div id= "answer-#{answer.id}"
     = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
       = f.label :body, 'Your answer'
       = f.text_area :body
-      = f.label :files
-      = f.file_field :files, multiple: true, direct_upload: true
       = f.submit 'Save'
-
-  - if answer.files.attached?
-    - answer.files.each do |file|
-      div id=file.id class='file'
-        p= link_to file.filename.to_s, url_for(file)
-        - if current_user&.author?(answer)
-          =link_to 'Delete file',
-                  file_path(file),
-                  method: :delete,
-                  remote: true
