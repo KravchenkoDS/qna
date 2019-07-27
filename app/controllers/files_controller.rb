@@ -7,4 +7,3 @@ class FilesController < ApplicationController
     @file.purge
   end
 end
-
