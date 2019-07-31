@@ -44,7 +44,6 @@ feature 'Authenticated user can create answer', %q{
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
     end
-
   end
 
 
