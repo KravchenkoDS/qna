@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-feature 'Authenticated user can create answer', %q{
-  To create a new answer
+feature 'Only authenticated user can create new answer on page question', %q{
+  In order to create new answer
   As an authenticated user
-  has the ability to write an answer on the question page
+  I'd like to be able to write the answer on page question
 } do
 
   given(:user) {create(:user)}
-  given(:question) {create(:question, user: user)}
+  given(:question) { create(:question, user: user) }
 
   describe 'Authenticated user', js: true do
     background do
@@ -19,15 +19,13 @@ feature 'Authenticated user can create answer', %q{
       fill_in 'answer_body', with: 'Answer body'
       click_on 'Add answer'
 
-      expect(page).to have_content 'Answer body'
-
       expect(current_path).to eq question_path(question)
       within '.answers' do
         expect(page).to have_content 'Answer body'
       end
     end
 
-    scenario 'write answer with errors', js: true do
+    scenario 'write answer with errors' do
       visit question_path(question)
       click_on 'Add answer'
 
@@ -46,10 +44,10 @@ feature 'Authenticated user can create answer', %q{
     end
   end
 
-
-  scenario 'Unauthenticated tries to add a answer' do
+  scenario 'Unauthenticated user tries to add a answer' do
     visit question_path(question)
     click_on 'Add answer'
+
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 end
