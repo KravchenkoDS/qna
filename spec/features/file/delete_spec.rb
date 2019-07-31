@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-feature 'The author can delete files from the question', %q{
-  To delete files, etc.
-  Authenticated user - author of the question
-  I would like to delete files from quesrion
+feature 'Author may delete files from own question', %q{
+  In order delete not rigth files etc
+  As an authenticated user - author question
+  I'd like to be able delete files from quesrion
 } do
 
   given(:users) { create_list(:user, 2) }
@@ -13,7 +13,7 @@ feature 'The author can delete files from the question', %q{
     question.files.attach(io: File.open("#{Rails.root}/spec/rails_helper.rb"), filename: 'rails_helper.rb')
   end
 
-  scenario 'Not authenticated user delete file', js: true do
+  scenario 'Not authenticated user tried delete file', js: true do
     visit question_path(question)
 
     expect(page).to_not have_link "Delete file"
@@ -27,7 +27,7 @@ feature 'The author can delete files from the question', %q{
     expect(page).to_not have_content 'rails_helper.rb'
   end
 
-  scenario 'Not author delete file' do
+  scenario 'Not author tried delete file' do
     sign_in(users.last)
     visit question_path(question)
 
