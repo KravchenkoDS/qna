@@ -1,8 +1,28 @@
 = render 'common/errors', resource: @question
 
 = form_with model: @question, local: true do |f|
-  = f.label :title
-  = f.text_field :title
-  = f.label :body
-  = f.text_area :body
-  = f.submit 'Ask'
+  p
+    = f.label :title
+    = f.text_field :title
+  p
+    = f.label :body
+    = f.text_area :body
+  p
+    = f.label :files
+    = f.file_field :files, multiple: true
+
+  p Links:
+  p
+    = f.fields_for :links do |l|
+      = render 'common/link_fields', f: l
+    = link_to_add_association 'add link', f, :links, partial: 'common/link_fields'
+
+  p Award
+  p
+    = f.fields_for :award do |a|
+      = a.label :title, 'title'
+      = a.text_field :title
+      = a.label :image, 'picture'
+      = a.file_field :image
+
+  p= f.submit 'Ask'
