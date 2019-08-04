@@ -8,6 +8,12 @@
   = form_with model: @question, class: 'hidden', html: { id: "edit-question" } do |f|
     = f.label :body, 'Edit question'
     = f.text_area :body
+    .edit-question-links
+      = f.fields_for :links do |l|
+        = render 'common/link_fields', f: l
+      = link_to_add_association 'add link', f, :links, partial: 'common/link_fields'
+    = f.label :files
+    = f.file_field :files, multiple: true, direct_upload: true
     = f.submit 'Save'
 
   - if current_user&.author?(@question)
@@ -26,4 +32,12 @@
 = form_with model: [@question, @answer], class: 'new-answer' do |f|
   = f.label :body, 'Your answer'
   = f.text_area :body
+  = f.label :files
+  = f.file_field :files, multiple: true
+  p Links:
+  p
+    = f.fields_for :links do |l|
+      = render 'common/link_fields', f: l
+    = link_to_add_association 'add link', f, :links, partial: 'common/link_fields'
+
   = f.submit 'Add answer'

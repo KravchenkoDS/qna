@@ -1,17 +1,17 @@
 require 'rails_helper'
 
-feature 'Author may delete own answer', %q{
-  To remove the answer with an error
-  Authenticated user
-  has the ability to delete the answer
+feature 'Only author may delete own answer', %q{
+  In order delete answer with error etc
+  As an authenticated user - author answer
+  I'd like to be able delete answer
 } do
 
-  given(:users) {create_list(:user, 2)}
-  given!(:answer) {create(:answer, user: users.first, question: question)}
-  given!(:question) {create(:question)}
+  given(:users) { create_list(:user, 2) }
+  given!(:question) { create(:question) }
+  given!(:answer) { create(:answer, user: users.first, question: question) }
 
   scenario 'Author delete answer', js: true do
-    sign_in(answer.user)
+    sign_in(users.first)
     visit question_path(question)
     click_on 'Delete answer'
 
@@ -19,10 +19,9 @@ feature 'Author may delete own answer', %q{
   end
 
   scenario 'Not author tried delete answer', js: true do
-    other_user = create(:user)
-    sign_in(other_user)
+    sign_in(users.last)
     visit question_path(question)
-    #save_and_open_page
+
     expect(page).to_not have_content 'Delete answer'
   end
 

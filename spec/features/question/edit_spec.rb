@@ -1,8 +1,9 @@
 require 'rails_helper'
 
-feature 'User edit question', %q{
-  The author of the question can correct errors
-  I would not want to edit my question
+feature 'User can edit his question', %q{
+  In order to correct mistakes
+  As an author of question
+  I'd like ot be able to edit my question
 } do
 
   given!(:user) { create(:user) }
@@ -17,17 +18,13 @@ feature 'User edit question', %q{
   describe 'Author', js: true do
     background do
       sign_in user
-
       visit question_path(own_question)
     end
 
     scenario 'edits his question' do
-
       within '.question-link' do
         click_on 'Edit'
-
         fill_in 'Edit question', with: 'edited question'
-
         click_on 'Save'
 
         expect(page).to_not have_content own_question.body
@@ -40,18 +37,13 @@ feature 'User edit question', %q{
     end
 
     scenario 'edits his question with errors' do
-
       within '.question-link' do
         click_on 'Edit'
-
         fill_in 'Edit question', with: ''
-
         click_on 'Save'
       end
       expect(page).to have_content own_question.body
-
       expect(page).to have_selector 'input'
-
       expect(page).to have_content "Body can't be blank"
     end
 

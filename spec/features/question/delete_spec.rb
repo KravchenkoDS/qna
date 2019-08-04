@@ -13,12 +13,14 @@ feature 'Only author may delete own question', %q{
     sign_in(users.first)
     visit question_path(question)
     click_on 'Delete question'
+
     expect(page).to_not have_content question.title
   end
 
   scenario 'Not author tried delete question' do
     sign_in(users.last)
     visit question_path(question)
+
     expect(page).to_not have_link "Delete question"
   end
 
