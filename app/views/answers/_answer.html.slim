@@ -1,6 +1,8 @@
 div id= "answer-#{answer.id}"
   -if answer.persisted?
     p= answer.body
+
+    = render "common/vote", resource: answer
     = render 'common/links', resource: answer
 
     - if current_user&.author?(answer)
