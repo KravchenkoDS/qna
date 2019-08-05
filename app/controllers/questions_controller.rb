@@ -26,10 +26,6 @@ class QuestionsController < ApplicationController
     @questions = Question.all
   end
 
-  def show
-    @answer = @question.answers.new
-  end
-
   def destroy
     if current_user.author?(@question)
       @question.destroy
