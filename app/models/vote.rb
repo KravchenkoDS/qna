@@ -4,14 +4,12 @@ class Vote < ApplicationRecord
   validates :user, uniqueness: { scope: :votable, message: 'User cannot vote twice' }
   validate :validate_user_not_author
 
-  VALUE = { up: 1, down: -1 }.freeze
-
   def up
-    update!(value: VALUE[:up])
+    update!(value: 1)
   end
 
   def down
-    update!(value: VALUE[:down])
+    update!(value: -1)
   end
 
   private

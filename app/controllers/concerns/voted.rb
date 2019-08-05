@@ -7,12 +7,20 @@ module Voted
 
   def vote_up
     @vote.up
-    make_response
+    render json: {
+        id: @votable.id,
+        score: @votable.score,
+        type: @votable.class.name.underscore
+    }
   end
 
   def vote_down
     @vote.down
-    make_response
+    render json: {
+        id: @votable.id,
+        score: @votable.score,
+        type: @votable.class.name.underscore
+    }
   end
 
   def vote_destroy
@@ -22,11 +30,14 @@ module Voted
 
   private
 
+=begin
   def model_klass
     controller_name.classify.constantize
   end
+=end
 
   def set_votable
+    model_klass = controller_name.classify.constantize
     @votable = model_klass.find(params[:id])
   end
 
@@ -34,6 +45,7 @@ module Voted
     @vote = current_user.votes.find_by(votable: @votable) || Vote.new(user: current_user, votable: @votable)
   end
 
+=begin
   private
 
   def make_response
@@ -50,4 +62,5 @@ module Voted
   def param_name(item)
     item.class.name.underscore
   end
+=end
 end
