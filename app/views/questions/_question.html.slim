@@ -1,6 +1,7 @@
 h1= question.title
 p= question.body
 
+= render "common/vote", resource: question
 = render 'common/links', resource: question
 
 - if question.files.attached?
