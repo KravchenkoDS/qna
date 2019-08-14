@@ -3,6 +3,9 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: %i[show destroy update]
+  after_action :publish_question, only: :create
+
+  expose :comment, -> { @question.comments.new }
 
   def new
     @question = current_user.questions.new
@@ -44,6 +47,14 @@ class QuestionsController < ApplicationController
   end
 
   private
+
+  def publish_question
+    return if @question.errors.any?
+
+    ActionCable.server.broadcast('questions', question: @question,
+        links: @question.links, files: @question.files.map { |file| { id: file.id, name: file.filename.to_s, url: url_for(file) } }
+    )
+  end
 
   def load_question
     @question = Question.with_attached_files.find(params[:id])
