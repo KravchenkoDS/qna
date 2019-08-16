@@ -6,7 +6,8 @@ $(document).on 'turbolinks:load', ->
         @perform 'follow'
     ,
       received: (data) ->
-        if current_user.id != data.comment.user_id
+#        if current_user.id != data.comment.user_id
+        if current_user.id isnt data.comment.user_id
           commentableType = data.comment.commentable_type.toLowerCase()
           commentableId = data.comment.commentable_id
           commentsList = $('#' + commentableType + '-' + commentableId + '  .comments')
