@@ -25,8 +25,7 @@ class CommentsController < ApplicationController
 
   def publish_comment
     return if comment.errors.any?
-
-    # question_id = @commentable.class == Question ? @commentable.id : @commentable.question_id
+    
     question_id = @commentable.try(:question_id) || @commentable.id
 
     ActionCable.server.broadcast(
