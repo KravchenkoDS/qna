@@ -14,6 +14,7 @@
 //= require activestorage
 //= require turbolinks
 //= require jquery3
-//= require activestorage
 //= require cocoon
+//= require action_cable
 //= require_tree .
+

@@ -6,6 +6,9 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_question, only: %i[new create]
   before_action :load_answer, only: %i[update destroy best]
+  after_action :publish_answer, only: :create
+
+  expose :comment, -> { answer.comments.new }
 
   def edit; end
 
@@ -42,6 +45,14 @@ class AnswersController < ApplicationController
   end
 
   private
+
+  def publish_answer
+    return if answer.errors.any?
+
+    AnswersChannel.broadcast_to(answer.question, answer: answer,
+        links: answer.links, files: answer.files.map { |file| { id: file.id, name: file.filename.to_s, url: url_for(file) } }
+    )
+  end
 
   def load_question
     @question = Question.find(params[:question_id])
