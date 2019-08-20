@@ -1,0 +1,29 @@
+class OauthCallbacksController < Devise::OmniauthCallbacksController
+  before_action :oauth
+
+  def github; end
+
+  def vkontakte; end
+
+  def mail_ru; end
+
+  private
+
+  def oauth
+    auth = request.env['omniauth.auth']
+    unless auth
+      redirect_to new_user_session_path, alert: 'Authentication failed.'
+      return
+    end
+
+    @user = User.find_for_oauth(auth)
+    if @user&.confirmed?
+      set_flash_message(:notice, :success, kind: client) if is_navigational_format?
+      sign_in_and_redirect @user, event: :authentication
+    else
+      session[:uid] = auth.uid
+      session[:provider] = auth.provider
+      redirect_to new_user_confirmation_path
+    end
+  end
+end
