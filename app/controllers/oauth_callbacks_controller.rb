@@ -1,11 +1,11 @@
 class OauthCallbacksController < Devise::OmniauthCallbacksController
   before_action :oauth
 
+  def mail_ru; end
+
   def github; end
 
   def vkontakte; end
-
-  def mail_ru; end
 
   private
 
