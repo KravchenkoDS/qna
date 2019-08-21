@@ -18,11 +18,11 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
 
     @user = User.find_for_oauth(auth)
     if @user&.confirmed?
-      set_flash_message(:notice, :success, kind: client) if is_navigational_format?
+      #set_flash_message(:notice, :success, kind: client) if is_navigational_format?
       sign_in_and_redirect @user, event: :authentication
     else
-      session[:uid] = auth.uid
-      session[:provider] = auth.provider
+      session['devise.oauth_uid'] = auth.uid
+      session['devise.oauth_provider'] = auth.provider
       redirect_to new_user_confirmation_path
     end
   end
