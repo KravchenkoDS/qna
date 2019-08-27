@@ -6,6 +6,7 @@ class Ability
   attr_reader :user
 
   def initialize(user)
+    @user = user
     if user
       user.admin? ? admin_abilities : user_abilities
     else
@@ -19,19 +20,17 @@ class Ability
 
   def user_abilities
     guest_abilities
-    #cannot?
+
     can :create, [Question, Answer, Comment]
-    can :update, [Question, Answer], user_id: user.id
-    can :destroy, [Question, Answer], user_id: user.id
-    can :best, Answer, question: {user_id: user.id}
-    can :vote_destroy, [Question, Answer], votes: {user_id: user.id}
-    can [:create, :destroy], Link, linkable: {user_id: user.id}
-    can :create, Award, question: {user_id: user.id}
-    can [:vote_up, :vote_down], [Question, Answer] do |item|
-      !user.author? item
+    can %i[update destroy], [Question, Answer], { user_id: user.id }
+    can :best, Answer, question: { user_id: user.id }
+
+    can :destroy, [Link] do |object|
+      object.linkable.user_id == user.id
     end
-    can :manage, ActiveStorage::Attachment do |file|
-      user.author? file.record
+
+    can %i[vote_up vote_down vote_cancel], [Answer, Question] do |object|
+      user.author?(object)
     end
   end
 
