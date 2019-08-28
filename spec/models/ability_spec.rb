@@ -59,9 +59,9 @@ RSpec.describe Ability do
     it { should be_able_to :destroy, create(:link, linkable: answer) }
     it { should_not be_able_to :destroy, create(:link, linkable: other_answer) }
 
-    it { should be_able_to %i[vote_up vote_down vote_destroy], other_answer }
-    it { should_not be_able_to %i[vote_up vote_down vote_destroy], answer }
-    it { should be_able_to %i[vote_up vote_down vote_destroy], other_question }
-    it { should_not be_able_to %i[vote_up vote_down vote_destroy], question }
+    it { should be_able_to %i[vote_up vote_down vote_cancel], other_answer }
+    it { should_not be_able_to %i[vote_up vote_down vote_cancel], answer }
+    it { should be_able_to %i[vote_up vote_down vote_cancel], other_question }
+    it { should_not be_able_to %i[vote_up vote_down vote_cancel], question }
   end
 end
