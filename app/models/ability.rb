@@ -7,11 +7,9 @@ class Ability
 
   def initialize(user)
     @user = user
-    if user
-      user.admin? ? admin_abilities : user_abilities
-    else
-      guest_abilities
-    end
+
+    return guest_abilities unless user
+    user.admin? ? admin_abilities : user_abilities
   end
 
   def guest_abilities
@@ -27,6 +25,10 @@ class Ability
 
     can :destroy, [Link] do |object|
       object.linkable.user_id == user.id
+    end
+
+    can :manage, ActiveStorage::Attachment do |file|
+      user.author? file.record
     end
 
     can %i[vote_up vote_down vote_cancel], [Answer, Question] do |object|

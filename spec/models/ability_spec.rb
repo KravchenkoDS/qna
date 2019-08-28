@@ -45,6 +45,12 @@ RSpec.describe Ability do
     it { should be_able_to :destroy, answer }
     it { should_not be_able_to :destroy, other_answer }
 
+    it { should be_able_to :destroy, question.files.first }
+    it { should_not be_able_to :destroy, other_question.files.first }
+
+    it { should be_able_to :destroy, answer.files.first }
+    it { should_not be_able_to :destroy, other_answer.files.first }
+
     it { should be_able_to :best, question.answers.first }
     it { should_not be_able_to :best, other_question.answers.first }
 
