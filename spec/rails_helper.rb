@@ -41,6 +41,8 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include WaitForAjax, type: :feature
   config.include OmniauthMacros, type: :feature
+  config.include ApiHelpers, type: :request
+
 
   Capybara.javascript_driver = :selenium_chrome_headless
 
