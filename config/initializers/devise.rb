@@ -261,17 +261,13 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
 
-
   config.omniauth :github,
                   Rails.application.credentials[Rails.env.to_sym][:github][:app_id],
                   Rails.application.credentials[Rails.env.to_sym][:github][:app_secret],
                   scope: 'user:email, read:user'
-
-
   config.omniauth :mail_ru,
                   Rails.application.credentials[Rails.env.to_sym][:mail_ru][:app_key],
                   Rails.application.credentials[Rails.env.to_sym][:mail_ru][:app_secret]
-
   config.omniauth :vkontakte,
                   Rails.application.credentials[Rails.env.to_sym][:vkontakte][:app_key],
                   Rails.application.credentials[Rails.env.to_sym][:vkontakte][:app_secret], {

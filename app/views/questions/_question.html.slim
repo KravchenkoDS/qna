@@ -8,7 +8,7 @@ p= question.body
   - question.files.each do |file|
     div id=file.id class='file'
       p= link_to file.filename.to_s, url_for(file)
-      - if current_user&.author?(question)
+      - if can? :destroy,file
         =link_to 'Delete file',
                 file_path(file),
                 method: :delete,
