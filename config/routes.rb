@@ -31,5 +31,16 @@ Rails.application.routes.draw do
   resources :awards, only: :index
   resources :users, only: :show
 
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: :index do
+        get :me, on: :collection
+      end
+      resources :questions, except: %i[new edit], shallow: true do
+        resources :answers, except: %i[new edit]
+      end
+    end
+  end
+
   mount ActionCable.server => '/cable'
 end
