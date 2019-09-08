@@ -5,11 +5,11 @@ div id= "answer-#{answer.id}"
     = render "common/vote", resource: answer
     = render 'common/links', resource: answer
 
-    - if current_user&.author?(answer)
+    - if can? :update,answer
       p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
       = link_to 'Delete answer',answer, method: :delete, remote: true
     br
-    - if current_user&.author?(answer.question)
+    - if can? :best, answer
       =link_to 'Mark as best', best_answer_path(answer), remote: true, class: 'mark-as-best', data: { answer_id: answer.id }, method: :patch
 
     = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
@@ -27,7 +27,7 @@ div id= "answer-#{answer.id}"
     - answer.files.each do |fileAnswer|
       div id=fileAnswer.id class='file'
         p= link_to fileAnswer.filename.to_s, url_for(fileAnswer)
-        - if current_user&.author?(answer)
+        - if can? :destroy,file
           =link_to 'Delete file',
                   file_path(fileAnswer),
                   method: :delete,

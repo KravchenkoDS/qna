@@ -5,6 +5,8 @@ class QuestionsController < ApplicationController
   before_action :load_question, only: %i[show destroy update]
   after_action :publish_question, only: :create
 
+  authorize_resource
+
   expose :comment, -> { @question.comments.new }
 
   def new
