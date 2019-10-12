@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
+  use_doorkeeper
   devise_for :users, controllers: {
       omniauth_callbacks: 'oauth_callbacks',
       confirmations: 'oauth_confirmations'
@@ -35,6 +36,17 @@ Rails.application.routes.draw do
   resources :links, only: :destroy
   resources :awards, only: :index
   resources :users, only: :show
+
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: :index do
+        get :me, on: :collection
+      end
+      resources :questions, except: %i[new edit], shallow: true do
+        resources :answers, except: %i[new edit]
+      end
+    end
+  end
 
   mount ActionCable.server => '/cable'
 end
