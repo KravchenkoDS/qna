@@ -25,12 +25,6 @@ class User < ApplicationRecord
     Services::FindForOauth.new(auth).call
   end
 
-=begin
-  def subscribed_to?(resource)
-    subscriptions.find_by(question_id: resource.id).present?
-  end
-=end
-
   def subscribed?(question)
     !!subscription(question)
   end
