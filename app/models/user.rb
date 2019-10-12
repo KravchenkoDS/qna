@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :awards, dependent: :destroy
   has_many :votes, dependent: :destroy
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -22,5 +23,9 @@ class User < ApplicationRecord
 
   def self.find_for_oauth(auth)
     Services::FindForOauth.new(auth).call
+  end
+
+  def subscribed_to?(resource)
+    subscriptions.find_by(question_id: resource.id).present?
   end
 end
