@@ -13,6 +13,8 @@ class Answer < ApplicationRecord
 
   accepts_nested_attributes_for :links, reject_if: :all_blank
 
+  after_create :subscription_job
+
   validates :body, presence: true
 
   def set_best!
@@ -22,6 +24,10 @@ class Answer < ApplicationRecord
       award = question.award
       user.awards << award unless award.nil?
     end
+  end
+
+  def subscription_job
+    NewAnswersJob.perform_later(self)
   end
 end
 

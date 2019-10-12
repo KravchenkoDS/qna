@@ -22,6 +22,9 @@
             question_path(@question),
             method: :delete,
             data: { confirm:'You sure delete' }
+  -if can? :create, Subscription
+    .subscription
+      = render 'subscriptions/subscription', question: @question
 
 .answer-errors
   = render 'common/errors', resource: @answer
