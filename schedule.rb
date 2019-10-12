@@ -1,4 +1,0 @@
-# Learn more: http://github.com/javan/whenever
-every 1.day, at: '6:59 am' do
-  runner "DailyDigestJob.perform_now"
-end
