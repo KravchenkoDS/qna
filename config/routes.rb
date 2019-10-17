@@ -2,7 +2,7 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
   authenticate :user, lambda {|u| u.admin?} do
-    mount Sidekiq::Web => '/sidekiq'
+    mount Sidekiq::Web =>'/sidekiq'
   end
 
   use_doorkeeper
@@ -29,13 +29,14 @@ Rails.application.routes.draw do
     resources :answers, shallow: true, concerns: %i[votable commentable] do
       patch :best, on: :member
     end
-    resources :subscriptions, only: %i[create destroy]
   end
 
   resources :files, only: :destroy
   resources :links, only: :destroy
   resources :awards, only: :index
   resources :users, only: :show
+  resources :subscriptions, only: %i[create destroy]
+
 
   namespace :api do
     namespace :v1 do
