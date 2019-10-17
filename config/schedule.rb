@@ -19,6 +19,5 @@
 
 # Learn more: http://github.com/javan/whenever
 every 15.minutes do
- # Services::DailyDigest.new.call
   runner "DailyDigestJob.perform_now"
 end
