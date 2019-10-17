@@ -19,5 +19,5 @@
 
 # Learn more: http://github.com/javan/whenever
 every 15.minutes do
-  runner "DailyDigestJob.perform_now"
+  runner "Services::DailyDigest.new.send_digest"
 end
