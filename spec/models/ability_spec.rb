@@ -24,6 +24,8 @@ RSpec.describe Ability do
     let(:user) { create(:user) }
     let(:other_user) { create(:user) }
     let(:question) { create(:question, author: user, answers: create_list(:answer, 1))}
+    let(:subscription) { create(:subscription, user: user) }
+    let(:other_user_subscription) { create(:subscription, user: other) }
     let(:other_question) { create(:question, author: other_user, answers: create_list(:answer, 1))}
     let(:answer) { create(:answer, author: user)}
     let(:other_answer) { create(:answer, author: other_user)}
@@ -34,6 +36,7 @@ RSpec.describe Ability do
     it { should be_able_to :create, Question }
     it { should be_able_to :create, Answer }
     it { should be_able_to :create, Comment }
+    it { should be_able_to :create, Subscription }
 
     it { should be_able_to :update, question }
     it { should_not be_able_to :update, other_question }
@@ -50,6 +53,9 @@ RSpec.describe Ability do
 
     it { should be_able_to :destroy, answer.files.first }
     it { should_not be_able_to :destroy, other_answer.files.first }
+
+    it { should be_able_to :destroy, subscription }
+    it { should_not be_able_to :destroy, other_user_subscription }
 
     it { should be_able_to :best, question.answers.first }
     it { should_not be_able_to :best, other_question.answers.first }

@@ -23,6 +23,9 @@
             method: :delete,
             data: { confirm:'You sure delete' }
 
+.subscription
+  = render 'subscriptions/subscription', question: @question
+
 .answer-errors
   = render 'common/errors', resource: @answer
 
@@ -41,3 +44,4 @@
     = link_to_add_association 'add link', f, :links, partial: 'common/link_fields'
 
   = f.submit 'Add answer'
+

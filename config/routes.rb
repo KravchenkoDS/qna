@@ -1,4 +1,9 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  authenticate :user, lambda {|u| u.admin?} do
+    mount Sidekiq::Web =>'/sidekiq'
+  end
 
   use_doorkeeper
   devise_for :users, controllers: {
@@ -30,6 +35,8 @@ Rails.application.routes.draw do
   resources :links, only: :destroy
   resources :awards, only: :index
   resources :users, only: :show
+  resources :subscriptions, only: %i[create destroy]
+
 
   namespace :api do
     namespace :v1 do
