@@ -1,0 +1,9 @@
+.comment
+  h4 Comment
+  p
+    = "Link to the question: "
+    - if resource.commentable.is_a?(Answer)
+      = link_to resource.commentable.question.title, question_path(resource.commentable.question)
+    - else
+      = link_to resource.commentable.title, question_path(resource.commentable)
+  p= resource.body
