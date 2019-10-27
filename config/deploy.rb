@@ -40,6 +40,4 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 # Uncomment the following to require manually verifying the host key before first deploy.
 # set :ssh_options, verify_host_key: :secure
 
-set :rbenv_map_bins, %w(rake gem bundle ruby rails sidekiq sidekiqctl)
-set :rbenv_map_bins, %w(rake gem bundle ruby rails sidekiq sidekiqctl)
-set :rvm_map_bins, fetch(:rvm_map_bins).to_a.concat(%w(sidekiq sidekiqctl))
+set :bundler_path, '/home/deployer/.rbenv/shims/bundle'
