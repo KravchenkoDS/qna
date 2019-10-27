@@ -1,0 +1,4 @@
+= form_with url: search_path, local: true, method: :get, scope: :search, class: 'form-inline' do |f|
+  = f.select :search_type, Services::Search::SEARCH_TYPES, {} ,{ class: 'btn btn-secondary width-fill' }
+  = f.text_field :search_string, class: 'width-fill', placeholder: "Typing here"
+  = f.submit 'Search', class: 'btn btn-outline-primary width-fill'
