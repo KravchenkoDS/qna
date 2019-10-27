@@ -7,7 +7,9 @@
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
 
+server "178.62.219.244", user: "deployer", roles: %w{app db web}, primary: true
 
+set :rail_env, :production
 
 # role-based syntax
 # ==================
@@ -31,8 +33,6 @@
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
 
-
-
 # Custom SSH Options
 # ==================
 # You may pass any option but keep in mind that net/ssh understands a
@@ -46,7 +46,12 @@
 #    forward_agent: false,
 #    auth_methods: %w(password)
 #  }
-#
+set :ssh_options, {
+    keys: %w(/home/kds/.ssh/id_rsa),
+    forward_agent: true,
+    auth_methods: %w(publickey password),
+    port: 2222
+}
 # The server-based syntax can be used to override options:
 # ------------------------------------
 # server "example.com",
