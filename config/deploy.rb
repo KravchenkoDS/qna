@@ -41,3 +41,5 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 # set :ssh_options, verify_host_key: :secure
 
 set :rbenv_map_bins, %w(rake gem bundle ruby rails sidekiq sidekiqctl)
+set :rbenv_map_bins, %w(rake gem bundle ruby rails sidekiq sidekiqctl)
+set :rvm_map_bins, fetch(:rvm_map_bins).to_a.concat(%w(sidekiq sidekiqctl))
