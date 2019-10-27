@@ -24,7 +24,7 @@ set :rvm_ruby_version, '2.6.3'
 # set :format_options, command_output: true, log_file: "log/capistrano.log", color: :auto, truncate: :auto
 
 # Default value for :pty is false
-# set :pty, true
+set :pty, false
 
 # Default value for :linked_files is []
 append :linked_files, "config/database.yml", "config/master.key"
