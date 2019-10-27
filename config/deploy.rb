@@ -12,6 +12,17 @@ set :deploy_to, "/home/deployer/qna"
 
 set :deploy_user, 'deployer'
 
+
+#
+set :rbenv_type, :user # or :system, depends on your rbenv setup
+set :rbenv_ruby, '2.6.3'
+# in case you want to set ruby version from the file:
+# set :rbenv_ruby, File.read('.ruby-version').strip
+set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
+set :rbenv_map_bins, %w{rake gem bundle ruby rails}
+set :rbenv_roles, :all # default value
+#
+
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
 
@@ -39,5 +50,3 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 
 # Uncomment the following to require manually verifying the host key before first deploy.
 # set :ssh_options, verify_host_key: :secure
-
-set :bundler_path, '/home/deployer/.rbenv/shims/bundle'
