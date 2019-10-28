@@ -1,0 +1,4 @@
+.answer
+  h4 Answer
+  = link_to "Link to the question: #{resource.question.title}", question_path(resource.question)
+  p= resource.body

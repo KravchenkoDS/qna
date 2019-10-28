@@ -6,12 +6,15 @@ Rails.application.routes.draw do
   end
 
   use_doorkeeper
+
+  root to: 'questions#index'
+
   devise_for :users, controllers: {
       omniauth_callbacks: 'oauth_callbacks',
       confirmations: 'oauth_confirmations'
   }
 
-  root to: 'questions#index'
+  get '/search', to: 'searches#search', as: 'search'
 
   concern :votable do
     member do
