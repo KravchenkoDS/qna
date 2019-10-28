@@ -7,7 +7,7 @@
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
 
-server "178.62.219.244", user: "deployer", roles: %w{app db web}, primary: true
+server "134.209.87.161", user: "deployer", roles: %w{app db web}, primary: true
 
 set :rail_env, :production
 
