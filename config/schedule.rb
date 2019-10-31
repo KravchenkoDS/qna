@@ -26,6 +26,6 @@ every 30.minutes do
   rake "ts:index"
 end
 
-every 5.hours do
+every 30.minutes do
   rake "ts:rebuild RAILS_ENV=production"
 end
