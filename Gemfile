@@ -61,6 +61,8 @@ gem 'whenever', require: false
 gem 'mysql2'
 gem 'thinking-sphinx'
 gem 'mini_racer'
+gem 'redis-rails'
+
 
 
 group :development, :test do
