@@ -12,8 +12,6 @@ set :deploy_to, "/home/deployer/qna"
 
 set :deploy_user, 'deployer'
 
-set :use_sudo, false
-
 set :rvm_type, :user
 set :rvm_ruby_version, '2.6.3'
 
