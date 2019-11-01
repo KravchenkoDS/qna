@@ -19,11 +19,11 @@
 
 # Learn more: http://github.com/javan/whenever
 #every 1.day, at: '8:00 am' do
-every 60.minutes do
+every 5.minutes do
   runner "Services::DailyDigest.new.send_digest"
 end
 
-every 30.minutes do
+every 5.minutes do
   rake "ts:index"
 end
 
