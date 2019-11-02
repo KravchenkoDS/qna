@@ -28,10 +28,23 @@ Rails.application.routes.draw do
     resources :comments, shallow: true, only: :create
   end
 
+=begin
   resources :questions, concerns: %i[votable commentable] do
     resources :answers, shallow: true, concerns: %i[votable commentable] do
       patch :best, on: :member
     end
+  end
+=end
+
+  resources :questions,
+            shallow: true,
+            concerns: %i[votable commentable] do
+    resources :answers,
+              only: %i[new create update destroy],
+              concerns: %i[votable commentable] do
+      patch :best, on: :member
+    end
+    resources :subscriptions, only: %i[create destroy]
   end
 
   resources :files, only: :destroy
