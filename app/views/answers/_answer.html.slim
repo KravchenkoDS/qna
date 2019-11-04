@@ -1,9 +1,10 @@
 div id= "answer-#{answer.id}"
   -if answer.persisted?
-    p= answer.body
-
-    = render "common/vote", resource: answer
-    = render 'common/links', resource: answer
+    - cache answer do
+      p= answer.body
+      
+      = render "common/vote", resource: answer
+      = render 'common/links', resource: answer
 
     - if can? :update,answer
       p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
