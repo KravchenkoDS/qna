@@ -1,6 +1,6 @@
 div id= "answer-#{answer.id}"
   -if answer.persisted?
-    - cache answer do
+    - cache [current_user || 'guest', answer] do
       p= answer.body
 
       = render "common/vote", resource: answer
