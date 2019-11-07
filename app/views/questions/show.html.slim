@@ -1,4 +1,4 @@
-- cache [current_user || 'guest', @question] do
+- cache @question do
   .question-errors
     = render 'common/errors', resource: @question
 
