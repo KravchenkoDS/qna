@@ -19,11 +19,11 @@
 
 
 
-  - if can?(:update, question)
+  - if can?(:update, @question)
     - if current_user&.author?(@question)
       p= link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: @question.id }
 
-  - if can?(:destroy, question)
+  - if can?(:destroy, @question)
     - if current_user&.author?(@question)
       p= link_to 'Delete question', question_path(@question), method: :delete, data: { confirm:'You sure delete' }
 

@@ -23,7 +23,7 @@ div id= "answer-#{answer.id}"
       = f.label :files
       = f.file_field :files, multiple: true, direct_upload: true
       = f.submit 'Save'
-
+  br
   - if answer.files.attached?
     - answer.files.each do |fileAnswer|
       div id=fileAnswer.id class='file'
