@@ -17,15 +17,15 @@
       = f.file_field :files, multiple: true, direct_upload: true
       = f.submit 'Save'
 
-    - if current_user&.author?(@question)
-      p= link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: @question.id }
-      p= link_to 'Delete question',
-              question_path(@question),
-              method: :delete,
-              data: { confirm:'You sure delete' }
+  - if can?(:update, @question)
+    p= link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: @question.id }
+  - if can?(:destroy, @question)
+    p= link_to 'Delete question',
+      question_path(@question), method: :delete, data: { confirm:'You sure delete' }
 
-  .subscription
-    = render 'subscriptions/subscription', question: @question
+  - if can?(:create, Subscription)
+    .subscription
+      = render 'subscriptions/subscription', question: @question
 
   .answer-errors
     = render 'common/errors', resource: @answer
@@ -35,7 +35,7 @@
 
   = form_with model: [@question, @answer], class: 'new-answer' do |f|
     = f.label :body, 'Your answer'
-    = f.text_area :body
+    = f.text_field :body
     = f.label :files
     = f.file_field :files, multiple: true
     p Links:
