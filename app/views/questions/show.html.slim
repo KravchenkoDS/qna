@@ -1,4 +1,4 @@
-- cache [collection_cache_key_for(:question), @question] do
+- cache_unless current_user.try(:admin), [collection_cache_key_for(:question), @question] do
   .question-errors
     = render 'common/errors', resource: @question
 
@@ -16,8 +16,6 @@
       = f.label :files
       = f.file_field :files, multiple: true, direct_upload: true
       = f.submit 'Save'
-
-
 
   - if can?(:update, @question)
     - if current_user&.author?(@question)
