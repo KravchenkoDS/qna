@@ -1,4 +1,4 @@
-- cache @question do
+- cache [collection_cache_key_for(:question), @question] do
   .question-errors
     = render 'common/errors', resource: @question
 

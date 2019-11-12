@@ -1,8 +1,7 @@
 div id= "answer-#{answer.id}"
   -if answer.persisted?
-    - cache answer do
+    - cache answer
       p= answer.body
-
       = render "common/vote", resource: answer
       = render 'common/links', resource: answer
 
