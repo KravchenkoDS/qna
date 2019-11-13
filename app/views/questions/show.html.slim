@@ -1,47 +1,50 @@
 .question-errors
   = render 'common/errors', resource: @question
 
-.question
-  = render @question
+  - cache @question do
+    .question
+      = render @question
 
-.question-link
-  = form_with model: @question, class: 'hidden', html: { id: "edit-question" } do |f|
-    = f.label :body, 'Edit question'
-    = f.text_area :body
-    .edit-question-links
+  .question-link
+    = form_with model: @question, class: 'hidden', html: { id: "edit-question" } do |f|
+      = f.label :body, 'Edit question'
+      = f.text_area :body
+      .edit-question-links
+        = f.fields_for :links do |l|
+          = render 'common/link_fields', f: l
+        = link_to_add_association 'add link', f, :links, partial: 'common/link_fields'
+      = f.label :files
+      = f.file_field :files, multiple: true, direct_upload: true
+      = f.submit 'Save'
+
+  - if can?(:update, @question)
+    - if current_user&.author?(@question)
+      p= link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: @question.id }
+
+  - if can?(:destroy, @question)
+    - if current_user&.author?(@question)
+      p= link_to 'Delete question', question_path(@question), method: :delete, data: { confirm:'You sure delete' }
+
+  - if can?(:create, Subscription)
+    .subscription
+      = render 'subscriptions/subscription', question: @question
+
+  .answer-errors
+    = render 'common/errors', resource: @answer
+
+  .answers
+    = render @question.answers
+
+  = form_with model: [@question, @answer], class: 'new-answer' do |f|
+    = f.label :body, 'Your answer'
+    = f.text_field :body
+    = f.label :files
+    = f.file_field :files, multiple: true
+    p Links:
+    p
       = f.fields_for :links do |l|
         = render 'common/link_fields', f: l
       = link_to_add_association 'add link', f, :links, partial: 'common/link_fields'
-    = f.label :files
-    = f.file_field :files, multiple: true, direct_upload: true
-    = f.submit 'Save'
 
-  - if current_user&.author?(@question)
-    p= link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: @question.id }
-    p= link_to 'Delete question',
-            question_path(@question),
-            method: :delete,
-            data: { confirm:'You sure delete' }
-
-.subscription
-  = render 'subscriptions/subscription', question: @question
-
-.answer-errors
-  = render 'common/errors', resource: @answer
-
-.answers
-  = render @question.answers
-
-= form_with model: [@question, @answer], class: 'new-answer' do |f|
-  = f.label :body, 'Your answer'
-  = f.text_area :body
-  = f.label :files
-  = f.file_field :files, multiple: true
-  p Links:
-  p
-    = f.fields_for :links do |l|
-      = render 'common/link_fields', f: l
-    = link_to_add_association 'add link', f, :links, partial: 'common/link_fields'
-
-  = f.submit 'Add answer'
+    = f.submit 'Add answer'
 
